@@ -32,7 +32,9 @@ export function ClerkLoginForm({
   async function finishSignIn() {
     await signIn.finalize({
       navigate: async ({ session, decorateUrl }) => {
-        const destination = session?.currentTask ? "/sign-in" : "/dashboard"
+        const destination = session?.currentTask
+          ? "/login?fallback=clerk"
+          : "/dashboard"
         const url = decorateUrl(destination)
 
         if (url.startsWith("http")) {
@@ -219,7 +221,7 @@ export function ClerkLoginForm({
                   <div className="flex items-center justify-between gap-3">
                     <FieldLabel htmlFor="password">Password</FieldLabel>
                     <Link
-                      href="/sign-in"
+                      href="/login?fallback=clerk"
                       className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
                     >
                       Forgot password?
@@ -237,7 +239,10 @@ export function ClerkLoginForm({
                   <div className="text-sm text-destructive" role="alert">
                     <p>{errorMessage}</p>
                     {showHostedSignIn && (
-                      <Link className="mt-1 inline-block underline" href="/sign-in">
+                      <Link
+                        className="mt-1 inline-block underline"
+                        href="/login?fallback=clerk"
+                      >
                         Continue with Clerk sign-in
                       </Link>
                     )}

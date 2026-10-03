@@ -31,7 +31,9 @@ export function ClerkRegisterForm({
   async function finishSignUp() {
     await signUp.finalize({
       navigate: async ({ session, decorateUrl }) => {
-        const destination = session?.currentTask ? "/sign-in" : "/dashboard"
+        const destination = session?.currentTask
+          ? "/login?fallback=clerk"
+          : "/dashboard"
         const url = decorateUrl(destination)
 
         if (url.startsWith("http")) {
